@@ -1,0 +1,23 @@
+version: "3"
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    ports:
+      - "4533:4533"
+    restart: unless-stopped
+    environment:
+      # Optional: put your config options customization here. Examples:
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info  
+      ND_SESSIONTIMEOUT: 24h
+      ND_BASEURL: ""
+    volumes:
+      - "/home/slashopt/navidrome/data:/data"
+      - "/home/slashopt/navidrome/music:/music:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navidrome.entrypoints=websecure"
+      - "traefik.http.routers.navidrome.rule=Host(`music.slashopt.at`)"
+      - "traefik.http.routers.navidrome.tls.certresolver=lets-encrypt"
+      - "traefik.http.routers.navidrome.service=navidrome"
+      - "traefik.http.services.navidrome.loadbalancer.server.port=4533"

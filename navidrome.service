@@ -1,0 +1,12 @@
+[Unit]
+Description=Start podman-compose for navidrome
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/podman-compose -f /home/slashopt/navidrome/docker-compose.yml up
+ExecStop=/usr/bin/podman-compose -f /home/slashopt/navidrome/docker-compose.yml down
+Restart=always
+User=slashopt
+
+[Install]
+WantedBy=multi-user.target
